@@ -12,8 +12,10 @@ namespace spaceFight
 {
     class Player : SpaceShip
     {
-        public Player(Shape shape, Texture texture, float PosX, float PosY, float MoveSpeed) : base(shape, texture, PosX, PosY, MoveSpeed)
+        private static Game _Game;
+        public Player(Shape shape, Texture texture, float PosX, float PosY, float MoveSpeed, Game game) : base(shape, texture, PosX, PosY, MoveSpeed)
         {
+            _Game = game;
         }
 
 
@@ -35,6 +37,10 @@ namespace spaceFight
             if (Input.IsKeyDown(Keyboard.Key.D))
             {
                 Position = new Vector2f(Position.X + MoveSpeed * Time.DeltaTime, Position.Y);
+            }
+            if(Input.IsKeyPressed(Keyboard.Key.Space))
+            {
+                _Game.AddGameObject(new Projectile(new RectangleShape(new Vector2f(50, 50)), AssetManager.GetTexture("Projectile.png"), (int)Shape.Position.X + 10, (int)Shape.Position.Y, 400));
             }
         }
 

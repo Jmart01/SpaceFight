@@ -19,6 +19,7 @@ namespace spaceFight
             _window.Closed += ExitGame;
             _window.SetFramerateLimit(60);
             _gameObjects = new List<GameObject>();
+            Input.SetInput(_window);
         }
 
         public void AddGameObject(GameObject newObject)
@@ -26,8 +27,12 @@ namespace spaceFight
             if(!_gameObjects.Contains(newObject))
             {
                 _gameObjects.Add(newObject);
+                Console.WriteLine("Add to list");
             }
-            
+            else
+            {
+                Console.WriteLine("cant add");
+            }
         }
         public void Run()
         {

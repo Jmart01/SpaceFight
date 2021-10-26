@@ -33,7 +33,6 @@ namespace spaceFight
         private static void SwitchIsKeyBool(object sender, EventArgs e)
         {
             isKeyPressed = false;
-            Console.WriteLine("should change to false");
         }
     
     }

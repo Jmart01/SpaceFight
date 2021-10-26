@@ -27,12 +27,12 @@ namespace spaceFight
             if(!_gameObjects.Contains(newObject))
             {
                 _gameObjects.Add(newObject);
-                Console.WriteLine("Add to list");
             }
             else
             {
                 Console.WriteLine("cant add");
             }
+            
         }
         public void Run()
         {
@@ -42,7 +42,7 @@ namespace spaceFight
 
         private void Start()
         {
-
+            SpawnEnemy();
         }
 
         private void Update()
@@ -54,6 +54,7 @@ namespace spaceFight
                 UpdateGameLogic();
                 Render();
                 _window.DispatchEvents();
+                
             }
         }
 
@@ -98,5 +99,27 @@ namespace spaceFight
         }
 
         private List<GameObject> _gameObjects;
+
+        public void RemoveFromGame(GameObject objectToRemove)
+        {
+            if(_gameObjects.Contains(objectToRemove))
+            {
+                _gameObjects.Remove(objectToRemove);
+            }
+        }
+
+        void SpawnEnemy()
+        {
+            System.Random rand = new Random();
+            float SpawnPosX = rand.Next(0, (int)Window.Size.X);
+            float SpawnPosY = 0;
+
+            new Enemy(new RectangleShape(new Vector2f(100, 100)), AssetManager.GetTexture("EnemyShip.png"), SpawnPosX, SpawnPosY, 200);
+        }
+
+        public GameObject[] GetAllObjects()
+        {
+            return _gameObjects.ToArray();
+        }
     }
 }

@@ -8,7 +8,7 @@ using SFML.System;
 
 namespace spaceFight
 {
-    class Projectile : GameObject
+    public class Projectile : GameObject
     {
         private float _projectileSpeed;
         public float ProjectileSpeed
@@ -16,15 +16,29 @@ namespace spaceFight
             set { _projectileSpeed = value; }
             get { return _projectileSpeed; }
         }
-        public Projectile(Shape shape, Texture texture, float PosX, float PosY, float projectileSpeed) : base(shape, texture, PosX, PosY)
+        public Projectile(Shape shape, Texture texture, float PosX, float PosY, Vector2f Velocity) : base(shape, texture, PosX, PosY)
         {
-            this._projectileSpeed = projectileSpeed;
+            _velocity = Velocity;
+            float rotation = MathLib.RatationFromVector(_velocity);
+            shape.Rotation = rotation;
         }
-
+        Vector2f _velocity;
         public override void Update()
         {
             base.Update();
-            Position = new Vector2f(Position.X, Position.Y - ProjectileSpeed * Time.DeltaTime);
+            Position += _velocity * Time.DeltaTime;
+        }
+
+        public override void OnCollisionEnter(GameObject other)
+        {
+            if(other.Owner != this.Owner)
+            {
+                if(other != Owner)
+                {
+                    Destroy();
+                    //Console.WriteLine($"{Owner}, {other.Owner}");
+                }
+            }
         }
     }
 }

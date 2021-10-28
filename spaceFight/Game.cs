@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using System.Timers;
 
 namespace spaceFight
 {
     class Game
     {
-        
+        private Timer aTimer;
+        private static float EnemiesNeededToSpawnBoss = 5;
 
         public Game(uint windowWidth, uint windowHeight, string title = "Space Fight")
         {
@@ -20,7 +22,23 @@ namespace spaceFight
             _window.SetFramerateLimit(60);
             _gameObjects = new List<GameObject>();
             Input.SetInput(_window);
+
+            aTimer = new System.Timers.Timer(2 * 1000);
+            aTimer.Elapsed += OnTimedEvent;
+
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
         }
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+       {
+           SpawnEnemy();
+           /*if(Input.IsKeyDown(Keyboard.Key.Space))
+           {
+               Console.WriteLine("I am getting turnt");
+               _Game.AddGameObject(new Projectile(new RectangleShape(new Vector2f(50, 50)), AssetManager.GetTexture("Projectile.png"), (int)Shape.Position.X + 10, (int)Shape.Position.Y, 400));
+           }*/
+       }
 
         public void AddGameObject(GameObject newObject)
         {
@@ -42,7 +60,7 @@ namespace spaceFight
 
         private void Start()
         {
-            SpawnEnemy();
+            //SpawnEnemy();
         }
 
         private void Update()
@@ -120,6 +138,21 @@ namespace spaceFight
         public GameObject[] GetAllObjects()
         {
             return _gameObjects.ToArray();
+        }
+
+        public void DecreseEnemyCountToSpawnBoss()
+        {
+            EnemiesNeededToSpawnBoss--;
+            Console.WriteLine(EnemiesNeededToSpawnBoss);
+            if(EnemiesNeededToSpawnBoss <= 0)
+            {
+                SpawnBoss();
+            }
+        }
+        void SpawnBoss()
+        {
+            new Boss(new RectangleShape(new Vector2f(100, 100)), AssetManager.GetTexture("Bolbi.png"), 100, 100, 400);
+            EnemiesNeededToSpawnBoss = 5;
         }
     }
 }

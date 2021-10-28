@@ -12,6 +12,7 @@ namespace spaceFight
         public Enemy(Shape shape, Texture texture, float PosX, float PosY, float MoveSpeed, float ShootRate = 2) : base(shape, texture, PosX, PosY, MoveSpeed, ShootRate)
         {
             shape.Rotation = 180;
+            ownerType = OwnerType.Enemy;
         }
 
         public override void Update()
@@ -19,6 +20,11 @@ namespace spaceFight
             base.Update();
             Fire();
             Position += GetForwardVector() * MoveSpeed * Time.DeltaTime;
+        }
+
+        public override void OnCollisionEnter(GameObject other)
+        {
+            base.OnCollisionEnter(other);
         }
     }
 }

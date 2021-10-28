@@ -10,6 +10,20 @@ namespace spaceFight
 {
     public class SpaceShip : GameObject
     {
+
+        public enum OwnerType
+        {
+            Player,
+            Enemy,
+            Boss
+        }
+        OwnerType _ownerType;
+
+        public OwnerType ownerType
+        {
+            set { _ownerType = value; }
+            get { return _ownerType; }
+        }
         public SpaceShip(Shape shape,Texture texture, float PosX, float PosY, float MoveSpeed, float ShootRate = 10) : base(shape, texture, PosX, PosY)
         {
             _moveSpeed = MoveSpeed;
@@ -32,10 +46,12 @@ namespace spaceFight
 
         virtual public void Fire()
         {
-            if(CanFire())
+            Console.WriteLine("SHooting my load");
+            if (CanFire())
             {
                 SpawnProjectile();
                 _cooldownCounter = 0;
+                
             }
         }
 
@@ -69,10 +85,15 @@ namespace spaceFight
         {
             if(other.Owner != this)
             {
-                Projectile otherAsProjectile = (Projectile)other;
-                if(otherAsProjectile != null)
+                Projectile otherAsProjectile = other as Projectile;
+                if (otherAsProjectile != null)
+                {
+                    if (this.ownerType == OwnerType.Enemy)
+                    {
+                        Program.GetGameInstance().DecreseEnemyCountToSpawnBoss();
+                    }
                     Destroy();
-
+                }
             }
         }
     }

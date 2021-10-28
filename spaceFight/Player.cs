@@ -12,11 +12,13 @@ namespace spaceFight
 {
     class Player : SpaceShip
     {
-        private Timer aTimer;
+        
         private static Game _Game;
+
         public Player(Shape shape, Texture texture, float PosX, float PosY, float MoveSpeed, Game game/* float projectileSpawnRate*/) : base(shape, texture, PosX, PosY, MoveSpeed)
         {
             _Game = game;
+            ownerType = OwnerType.Player;
             //aTimer = new System.Timers.Timer(projectileSpawnRate * 1000);
             //aTimer.Elapsed += OnTimedEvent;
     
@@ -24,14 +26,7 @@ namespace spaceFight
             //aTimer.Enabled = false;
         }
 
-        /*private void OnTimedEvent(object sender, ElapsedEventArgs e)
-        {
-            if(Input.IsKeyDown(Keyboard.Key.Space))
-            {
-                Console.WriteLine("I am getting turnt");
-                _Game.AddGameObject(new Projectile(new RectangleShape(new Vector2f(50, 50)), AssetManager.GetTexture("Projectile.png"), (int)Shape.Position.X + 10, (int)Shape.Position.Y, 400));
-            }
-        }*/
+       
 
         public override void Update()
         {

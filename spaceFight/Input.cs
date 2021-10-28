@@ -11,6 +11,7 @@ namespace spaceFight
     {
         private static Window _window;
         private static bool isKeyPressed = false;
+        
         public static void SetInput(Window window)
         {
             _window = window;
